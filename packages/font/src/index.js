@@ -48,6 +48,22 @@ function FontStore() {
     return fonts[fontFamily].resolve(descriptor);
   };
 
+  this.getFontsData = descriptor => {
+    const { fontFamily } = descriptor;
+
+    if (Array.isArray(fontFamily)) {
+      return fontFamily.map(family => {
+        const isStandard = standard.includes(fontFamily);
+
+        if (isStandard) return family;
+
+        return this.getFont({ ...descriptor, fontFamily: family })?.data;
+      });
+    }
+
+    return [this.getFont(descriptor)?.data || fontFamily];
+  };
+
   this.load = async descriptor => {
     const { fontFamily } = descriptor;
     const isStandard = standard.includes(fontFamily);

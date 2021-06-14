@@ -2,6 +2,6 @@
 
 import * as R from 'ramda';
 
-const matchNumber = R.when(R.is(String), R.test(/^-?\d*\.?\d*$/));
+const matchNumber = v => R.is(String, v) && R.test(/^-?\d*\.?\d*$/, v);
 
 export const castFloat = R.when(matchNumber, v => parseFloat(v, 10));

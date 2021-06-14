@@ -25,7 +25,13 @@ const fetchAssets = (fontStore, node) => {
     }
 
     if (fontStore && n.style?.fontFamily) {
-      promises.push(fontStore.load(n.style));
+      if (R.is(Array, n.style.fontFamily)) {
+        n.style.fontFamily.forEach(family => {
+          promises.push(fontStore.load({ ...n.style, fontFamily: family }));
+        });
+      } else {
+        promises.push(fontStore.load(n.style));
+      }
     }
 
     if (typeof n === 'string') {
